@@ -1,19 +1,18 @@
-	<div class="modal-header">
-    <h4 class="modal-title" id="modal-title">Post Delete</h4>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close button"
-      aria-describedby="modal-title"
-      (click)="modal.dismiss(false)"
-    ></button>
-  </div>
-  <div class="modal-body">
-    <p>
-      <strong>Are you sure you want to delete this post?</strong>
-    </p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss(false)">Cancel</button>
-    <button type="button" ngbAutofocus class="btn btn-danger" (click)="modal.close(true)">Ok</button>
-  </div>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Post Delete</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close button"
+    aria-describedby="modal-title"
+    (click)="modal.dismiss(false)"></button>
+</div>
+<div class="modal-body">
+  <p>
+    <strong>Are you sure you want to delete this post?</strong>
+  </p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss(false)">Cancel</button>
+  <button type="button" ngbAutofocus class="btn btn-danger" (click)="modal.close(true)">Ok</button>
+</div>

@@ -11,7 +11,6 @@ import { of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
-
 @Injectable()
 export class BlogEffects {
   loadPosts$ = createEffect(() =>
@@ -20,12 +19,11 @@ export class BlogEffects {
       withLatestFrom(this.store.pipe(select('blog'))),
       switchMap(([action, state]) =>
         this.postService.getPosts(action.limit, action.page, action.query).pipe(
-          map((response) => BlogActions.loadPostsSuccess(
-            { posts: response.results, totalCount: response.totalCount })),
-          catchError((error) => of(BlogActions.loadPostsFailure({error})))
-        )
-      )
-    )
+          map((response) => BlogActions.loadPostsSuccess({ posts: response.results, totalCount: response.totalCount })),
+          catchError((error) => of(BlogActions.loadPostsFailure({ error }))),
+        ),
+      ),
+    ),
   );
 
   createPost$ = createEffect(() =>
@@ -39,11 +37,11 @@ export class BlogEffects {
           }),
           catchError((error) => {
             this.toastrService.error('Something went wrong on post creation!');
-            return of(BlogActions.createPostFailure({error}));
-        })
-        )
-      )
-    )
+            return of(BlogActions.createPostFailure({ error }));
+          }),
+        ),
+      ),
+    ),
   );
 
   updatePost$ = createEffect(() =>
@@ -57,11 +55,11 @@ export class BlogEffects {
           }),
           catchError((error) => {
             this.toastrService.error('Something went wrong on post update!');
-            return of(BlogActions.updatePostFailure({error}));
-          })
-        )
-      )
-    )
+            return of(BlogActions.updatePostFailure({ error }));
+          }),
+        ),
+      ),
+    ),
   );
 
   deletePost$ = createEffect(() =>
@@ -71,15 +69,15 @@ export class BlogEffects {
         this.postService.deletePost(id).pipe(
           map(() => {
             this.toastrService.success('Post was deleted successfully!');
-            return BlogActions.deletePostSuccess({ id })
+            return BlogActions.deletePostSuccess({ id });
           }),
           catchError((error) => {
             this.toastrService.error('Something went wrong on post delete!');
-            return of(BlogActions.deletePostFailure({error}))
-          })
-        )
-      )
-    )
+            return of(BlogActions.deletePostFailure({ error }));
+          }),
+        ),
+      ),
+    ),
   );
 
   getPostById$ = createEffect(() =>
@@ -90,12 +88,16 @@ export class BlogEffects {
           map((post) => {
             return BlogActions.getPostByIdSuccess({ post });
           }),
-          catchError((error) => of(BlogActions.getPostByIdFailure({ error })))
-        )
-      )
-    )
+          catchError((error) => of(BlogActions.getPostByIdFailure({ error }))),
+        ),
+      ),
+    ),
   );
 
-  constructor(private actions$: Actions, private postService: PostService, private store: Store<{blog: State}>, private toastrService: ToastrService) {}
-
+  constructor(
+    private actions$: Actions,
+    private postService: PostService,
+    private store: Store<{ blog: State }>,
+    private toastrService: ToastrService,
+  ) {}
 }

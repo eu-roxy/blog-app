@@ -7,7 +7,7 @@ export const blogReducer = createReducer(
   on(BlogActions.loadPostsSuccess, (state, { posts, totalCount }) => {
     return {
       ...postAdapter.setAll(posts, state),
-      totalCount
+      totalCount,
     };
   }),
   on(BlogActions.createPostSuccess, (state, { post }) => postAdapter.addOne(post, state)),

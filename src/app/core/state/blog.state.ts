@@ -8,5 +8,5 @@ export interface State extends EntityState<PostInterface> {
 export const postAdapter = createEntityAdapter<PostInterface>();
 
 export const initialState: State = postAdapter.getInitialState({
-  totalCount: 0
+  totalCount: 0,
 });

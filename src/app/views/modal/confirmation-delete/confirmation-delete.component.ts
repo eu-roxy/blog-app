@@ -7,7 +7,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './confirmation-delete.component.html',
-  styleUrls: ['./confirmation-delete.component.scss']
+  styleUrls: ['./confirmation-delete.component.scss'],
 })
 export class ConfirmationDeleteComponent {
   constructor(public modal: NgbActiveModal) {}

@@ -8,7 +8,7 @@ import { PostInterface } from 'src/app/core/interfaces/post.interface';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './view-post.component.html',
-  styleUrls: ['./view-post.component.scss']
+  styleUrls: ['./view-post.component.scss'],
 })
 export class ViewPostComponent {
   post!: PostInterface;

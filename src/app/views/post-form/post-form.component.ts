@@ -14,7 +14,7 @@ import { PostInterface } from 'src/app/core/interfaces/post.interface';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './post-form.component.html',
-  styleUrls: ['./post-form.component.scss']
+  styleUrls: ['./post-form.component.scss'],
 })
 export class PostFormComponent implements OnInit, OnDestroy {
   postForm: FormGroup;
@@ -22,7 +22,13 @@ export class PostFormComponent implements OnInit, OnDestroy {
   postId!: string;
   public post$!: Observable<PostInterface>;
 
-  constructor(private store: Store, private fb: FormBuilder, private route: ActivatedRoute, private toastrService: ToastrService, private router: Router) {
+  constructor(
+    private store: Store,
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private toastrService: ToastrService,
+    private router: Router,
+  ) {
     this.postForm = this.fb.group({
       title: ['', Validators.required],
       body: ['', Validators.required],
@@ -37,9 +43,8 @@ export class PostFormComponent implements OnInit, OnDestroy {
           this.store.dispatch(getPostById({ id: this.postId }));
           this.loadPost();
         } else {
-
         }
-      })
+      }),
     );
   }
 
@@ -54,23 +59,22 @@ export class PostFormComponent implements OnInit, OnDestroy {
           this.postForm.get('title')?.setValue(post.title);
           this.postForm.get('body')?.setValue(post.body);
         }
-      })
-    )
+      }),
+    );
   }
 
   public onSubmit() {
     if (this.postForm.valid) {
       if (this.postId) {
         console.log('save with id');
-        this.store.dispatch(updatePost({ id: this.postId, updatedPost: this.postForm.value}));
+        this.store.dispatch(updatePost({ id: this.postId, updatedPost: this.postForm.value }));
         this.router.navigate(['posts']);
       } else {
-        this.store.dispatch(createPost({ post: this.postForm.value}));
+        this.store.dispatch(createPost({ post: this.postForm.value }));
         this.router.navigate(['posts']);
       }
     } else {
       this.toastrService.warning('Invalid form. Check the required fields');
     }
   }
-
 }

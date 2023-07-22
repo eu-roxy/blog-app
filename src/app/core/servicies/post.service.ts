@@ -5,15 +5,14 @@ import { PostInterface } from '../interfaces/post.interface';
 import { Apollo, gql } from 'apollo-angular';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PostService {
-
   constructor(private apollo: Apollo) {}
 
   getPosts(limit: number, page: number, query?: string | null) {
     const offset = (page - 1) * limit;
-    const options: { [key: string]: any} = {
+    const options: { [key: string]: any } = {
       paginate: { limit, page },
     };
 
@@ -36,18 +35,19 @@ export class PostService {
               meta {
                 totalCount
               }
-
             }
           }
         `,
         variables: { options: options },
       })
-      .pipe(map((result) => {
-        return {
-          results: result.data.posts.data,
-          totalCount: result.data.posts.meta.totalCount }
-      }
-      ));
+      .pipe(
+        map((result) => {
+          return {
+            results: result.data.posts.data,
+            totalCount: result.data.posts.meta.totalCount,
+          };
+        }),
+      );
   }
 
   getPostById(id: string): Observable<any> {

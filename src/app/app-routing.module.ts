@@ -7,24 +7,24 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'posts'
+    redirectTo: 'posts',
   },
   {
     path: 'posts',
-    component: PostsTableComponent
+    component: PostsTableComponent,
   },
   {
     path: 'post',
-    component: PostFormComponent
+    component: PostFormComponent,
   },
   {
     path: 'post/:postId',
-    component: PostFormComponent
-  }
+    component: PostFormComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

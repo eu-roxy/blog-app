@@ -16,7 +16,7 @@ import { ViewPostComponent } from '../modal/view-post/view-post.component';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './posts-table.component.html',
-  styleUrls: ['./posts-table.component.scss']
+  styleUrls: ['./posts-table.component.scss'],
 })
 export class PostsTableComponent implements OnInit {
   posts$!: Observable<PostInterface[]>;
@@ -28,16 +28,14 @@ export class PostsTableComponent implements OnInit {
   private searchInput$ = new Subject<string>();
   private currentSearch!: string;
 
-  constructor(private store: Store, private modalService: NgbModal) {
-    this.searchInput$
-      .pipe(
-        debounceTime(100),
-        distinctUntilChanged()
-      )
-      .subscribe((searchTerm) => {
-        this.currentSearch = searchTerm;
-        this.store.dispatch(BlogActions.loadPosts({ limit: 10, page: 1, query: this.currentSearch}));
-      });
+  constructor(
+    private store: Store,
+    private modalService: NgbModal,
+  ) {
+    this.searchInput$.pipe(debounceTime(100), distinctUntilChanged()).subscribe((searchTerm) => {
+      this.currentSearch = searchTerm;
+      this.store.dispatch(BlogActions.loadPosts({ limit: 10, page: 1, query: this.currentSearch }));
+    });
   }
 
   ngOnInit(): void {
@@ -52,7 +50,9 @@ export class PostsTableComponent implements OnInit {
   }
 
   loadPosts() {
-    this.store.dispatch(BlogActions.loadPosts({ limit: this.limit, page: this.currentPage, query: this.currentSearch }));
+    this.store.dispatch(
+      BlogActions.loadPosts({ limit: this.limit, page: this.currentPage, query: this.currentSearch }),
+    );
   }
 
   loadPage(page: number) {
@@ -78,9 +78,9 @@ export class PostsTableComponent implements OnInit {
 
   deletePost(postId: string) {
     const modalRef = this.modalService.open(ConfirmationDeleteComponent);
-    modalRef.closed.subscribe((confirmed: boolean ) => {
+    modalRef.closed.subscribe((confirmed: boolean) => {
       if (confirmed) {
-        this.store.dispatch(BlogActions.deletePost({ id: postId}));
+        this.store.dispatch(BlogActions.deletePost({ id: postId }));
       }
     });
   }
@@ -88,7 +88,7 @@ export class PostsTableComponent implements OnInit {
   onSearch(event: Event) {
     const query = (event.target as HTMLInputElement).value;
 
-    if (query !== null && typeof(query) == 'string') {
+    if (query !== null && typeof query == 'string') {
       this.searchInput$.next(query);
     }
   }
@@ -97,7 +97,4 @@ export class PostsTableComponent implements OnInit {
     const modalRef = this.modalService.open(ViewPostComponent);
     modalRef.componentInstance.post = post;
   }
-
-
-
 }
