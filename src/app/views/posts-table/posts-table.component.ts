@@ -95,6 +95,7 @@ export class PostsTableComponent implements OnInit {
 
   viewPost(post: PostInterface) {
     const modalRef = this.modalService.open(ViewPostComponent);
+    modalRef.componentInstance.post = post;
   }
 
 
