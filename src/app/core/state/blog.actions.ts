@@ -2,8 +2,6 @@ import { createAction, props } from '@ngrx/store';
 import { PaginatedResultInterface } from '../interfaces/paginated-result.interface';
 import { PostInterface } from '../interfaces/post.interface';
 
-// export const setSearchQuery = createAction('[Blog] Set Search Query', props<{ query: string | }>());
-
 export const loadPosts = createAction('[Blog] Load Posts', props<{ limit: number; page: number; query?: string }>());
 export const loadPostsSuccess = createAction(
   '[Blog] Load Posts Success',

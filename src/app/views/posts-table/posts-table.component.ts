@@ -25,6 +25,7 @@ export class PostsTableComponent implements OnInit {
   limit = 10;
   totalCount = 0;
   pages: number[] = [];
+
   private searchInput$ = new Subject<string>();
   private currentSearch!: string;
 
@@ -38,45 +39,45 @@ export class PostsTableComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadPosts();
+
     this.posts$ = this.store.select(selectAllPosts);
     this.store.select(selectTotalCount).subscribe((totalCount) => {
-      console.log(totalCount);
       this.totalCount = totalCount;
       this.totalPages = Math.ceil(totalCount / this.limit);
       this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
     });
   }
 
-  loadPosts() {
+  public loadPosts(): void {
     this.store.dispatch(
       BlogActions.loadPosts({ limit: this.limit, page: this.currentPage, query: this.currentSearch }),
     );
   }
 
-  loadPage(page: number) {
+  public loadPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
       this.loadPosts();
     }
   }
 
-  nextPage() {
+  public nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
       this.loadPosts();
     }
   }
 
-  previousPage() {
+  public previousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
       this.loadPosts();
     }
   }
 
-  deletePost(postId: string) {
+  public deletePost(postId: string): void {
     const modalRef = this.modalService.open(ConfirmationDeleteComponent);
     modalRef.closed.subscribe((confirmed: boolean) => {
       if (confirmed) {
@@ -85,7 +86,7 @@ export class PostsTableComponent implements OnInit {
     });
   }
 
-  onSearch(event: Event) {
+  public onSearch(event: Event): void {
     const query = (event.target as HTMLInputElement).value;
 
     if (query !== null && typeof query == 'string') {
@@ -93,7 +94,7 @@ export class PostsTableComponent implements OnInit {
     }
   }
 
-  viewPost(post: PostInterface) {
+  public viewPost(post: PostInterface): void {
     const modalRef = this.modalService.open(ViewPostComponent);
     modalRef.componentInstance.post = post;
   }

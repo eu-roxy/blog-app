@@ -20,7 +20,7 @@ export class PostFormComponent implements OnInit, OnDestroy {
   postForm: FormGroup;
   subscriptions: Subscription[] = [];
   postId!: string;
-  public post$!: Observable<PostInterface>;
+  post$!: Observable<PostInterface>;
 
   constructor(
     private store: Store,
@@ -42,7 +42,6 @@ export class PostFormComponent implements OnInit, OnDestroy {
           this.postId = params['postId'];
           this.store.dispatch(getPostById({ id: this.postId }));
           this.loadPost();
-        } else {
         }
       }),
     );
@@ -52,6 +51,10 @@ export class PostFormComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
+  /**
+   * The `loadPost` function loads a post from the store and updates the values of
+   * the title and body fields in a form if the post exists.
+   */
   public loadPost(): void {
     this.subscriptions.push(
       this.store.pipe(select(selectPostById, { postId: this.postId })).subscribe((post: PostInterface) => {
@@ -63,10 +66,14 @@ export class PostFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  public onSubmit() {
+  /**
+   * The onSubmit function checks if the postForm is valid, and if so, dispatches an
+   * action to update or create a post and navigates to the posts page; otherwise, it
+   * displays a warning message.
+   */
+  public onSubmit(): void {
     if (this.postForm.valid) {
       if (this.postId) {
-        console.log('save with id');
         this.store.dispatch(updatePost({ id: this.postId, updatedPost: this.postForm.value }));
         this.router.navigate(['posts']);
       } else {
